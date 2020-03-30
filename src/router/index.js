@@ -1,6 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import SelectRouter from '../views/SelectRouter'
+import Login from '../views/Longin'
+import Upimg from '../views/Upimg'
+import Map from '../views/map'
+import Download from '../views/download'
+import Downloadimg from '../views/downloadimg'
+import orderlist from '../views/orderList'
+import order from '../views/order'
 
 Vue.use(VueRouter)
 
@@ -11,12 +19,44 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/select',
+    name: 'select',
+    component: SelectRouter
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/upimg',
+    name: 'upimg',
+    component: Upimg
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: Map
+  },
+  {
+    path: '/download',
+    name: 'download',
+    component: Download
+  },
+  {
+    path: '/downloadimg',
+    name: 'downloadimg',
+    component: Downloadimg
+  },
+  {
+    path: '/orderlist',
+    name: 'orderlist',
+    component: orderlist
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: order
   }
 ]
 
