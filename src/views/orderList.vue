@@ -1,25 +1,17 @@
 <template>
     <div class="bgColor">
+        <Top titlename="订单列表"></Top>
         <div v-if="showpage">
             <div class="myHandout">
                 <ul>
                     <li v-for="(item, index) in handoutList" :key="index">
                         <div class="img">
-                            <img src="../assets/img/downlist/picOther@3x.png" alt="" />
+                            <img :src="item.thumb_image_url" alt="" />
                         </div>
                         <div class="text">
-                            <h3>{{ item.lessonTitle }}</h3>
-                            <p>{{ item.startDate | dateTime }}</p>
-                            <p>¥15.00</p>
-                            <p>
-                                <span>作者：{{ item.lectureName }}</span>
-<!--                                <span>辅导：{{ item.tutorName }}</span>-->
-                            </p>
-                        </div>
-                        <div class="submit">
-                            <div class="detail" @click="$router.push('/order')">
-                                查看详情
-                            </div>
+                            <h3>{{ item.ski_park_name }}</h3>
+                            <p>{{ item.create_time}}</p>
+                            <p>¥{{item.total_fee}}</p>
                         </div>
                     </li>
                 </ul>
@@ -32,6 +24,7 @@
 </template>
 <script>
     import format from 'date-fns/format'
+    import Top from "../components/top";
     export default {
         data() {
             return {
@@ -72,10 +65,13 @@
                         timePeriod:'5467'
                     }
                 ],
-                showpage: true,
+                showpage: false,
                 pageIndex: 1,
                 total: 0
             }
+        },
+        components: {
+            Top
         },
         filters: {
             dateTime(val) {
@@ -83,13 +79,6 @@
                     val = val.replace(/-/g, '/')
                     let time = new Date(val)
                     return format(time, 'yyyy-MM-dd')
-                }
-            },
-            time(val) {
-                if (val) {
-                    val = val.replace(/-/g, '/')
-                    let time = new Date(val)
-                    return format(time, 'HH:mm')
                 }
             }
         },
@@ -108,20 +97,37 @@
                     that.getData()
                 }
             },
+            getData() {
+                this.$server({
+                    url:'/album/seller-orders',
+                    params: {
+                        page: 1
+                    },
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("signIn")
+                    }
+                }).then(res=>{
+                    this.handoutList = res.data
+                    this.showpage = true
+                })
+            }
         },
         mounted() {
             //初始化进来要记录切换状态用在information 页面问题
             // window.addEventListener('scroll', this.scrollFunc, true)
+            if(!this.$cookies.get("signIn")) this.$router.push('/home')
+            this.getData()
         }
     }
 </script>
 <style lang="less" scoped>
     .bgColor {
+        background: #fafafa;
+        position: relative;
         width: 100%;
         height: 100%;
-        position: absolute;
-        background: rgb(248, 248, 248);
-        overflow-y: scroll;
+        left: 0;
+        top: 0;
     }
     .notes {
         font-family: PingFangSC-Regular;
@@ -131,7 +137,7 @@
         padding: 1.93rem 0 0.7rem 0;
     }
     .noData {
-        position: absolute;
+        position: relative;
         left: 0;
         top: 0;
         width: 100%;
@@ -154,14 +160,14 @@
                 align-items: center;
                 position: relative;
                 .img {
-                    width: 32%;
+                    width: 45%;
                     img {
                         width: 100%;
                     }
                 }
                 .text {
                     margin-left: 5%;
-                    line-height: 30px;
+                    line-height: 23px;
                 }
                 .submit {
                     display: flex;
@@ -227,17 +233,6 @@
                         margin-right: 22px;
                     }
                 }
-            }
-        }
-    }
-    @media screen and (min-width: 450px) {
-        .myHandout ul {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            li {
-                width: 48%;
             }
         }
     }

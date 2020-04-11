@@ -60,7 +60,7 @@ class uploadCenter {
       .$request({
         method: 'GET',
         url: '/api/online/oss/policy/tutor',
-        header: {
+        headers: {
           online_token_cookie: token,
           client: 'TUTOR_IPAD'
         },

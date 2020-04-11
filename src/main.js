@@ -7,6 +7,7 @@ import service from './plugins/feach'
 import Calendar from 'vue2-datepick'
 import VueCookies from 'vue-cookies'
 import Toast from '@/components/toast'
+import vuePicturePreview from 'vue-picture-preview';
 Vue.use(VueCookies)
 
 Vue.prototype.$toast = Toast
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 Vue.prototype.$server = service
 Vue.use(VueTouch, {name: 'v-touch'})
 Vue.use(Calendar)
+Vue.component('Previewer', vuePicturePreview);
 
 new Vue({
   router,
