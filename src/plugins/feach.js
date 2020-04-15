@@ -4,10 +4,10 @@ import qs from 'qs';
 let baseURL = '';
 
 if (process.env.NODE_ENV === 'production') {
-    baseURL = 'http://photo.fewsecond.cn';
+    baseURL = 'http://photo.fewsecond.cn/apis';
 
 } else {
-    baseURL = 'http://photo.fewsecond.cn';
+    baseURL = 'http://photo.fewsecond.cn/apis';
 }
 
 const service = axios.create({
