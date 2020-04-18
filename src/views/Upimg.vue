@@ -278,7 +278,7 @@ export default {
   top: -1000%;
 }
 .optye100 {
-  opacity: 100%;
+  opacity: 1;
   position: absolute;
   top: -1000%;
 }
