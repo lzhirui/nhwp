@@ -93,7 +93,6 @@ export default {
           Authorization: "Bearer " + this.$cookies.get("token")
         }
       }).then(res => {
-        console.log(res);
         this.$cookies.set("signIn", res.token);
         this.$router.push("/select");
       });

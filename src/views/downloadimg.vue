@@ -137,7 +137,6 @@ export default {
           Authorization: "Bearer " + this.token
         }
       }).then(res => {
-        console.log(res);
         if (res.download_url) {
           window.location.href = res.download_url + "?attname=";
         } else {
