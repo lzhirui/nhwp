@@ -188,16 +188,13 @@ export default {
       };
       var observable = qiniu.upload(file, key, uptoken, putExtra, config);
       observable.subscribe({
-        next: result => {
+        next: () => {
           // 主要用来展示进度
-          console.log(result);
         },
-        error: errResult => {
+        error: () => {
           // 失败报错信息
-          console.log(errResult);
         },
         complete: result => {
-          console.log(result);
           // 接收成功后返回的信息
           this.imgList.push({
             src: "http://whnp.fewsecond.cn/" + result.key
@@ -257,16 +254,6 @@ export default {
       this.bugImgData = this.imgList;
       this.listIndex = index;
       this.bigImgTyle = true;
-    },
-    log(str1, str2 = "") {
-      console.log(str1, str2);
-    },
-    change(value) {
-      console.log("change", value);
-    },
-    onConfirm(val) {
-      console.log("on-confirm arg", val);
-      console.log("current value", this.value1);
     }
   }
 };
