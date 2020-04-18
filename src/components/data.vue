@@ -156,6 +156,7 @@
         overflow: hidden;
         border:1px solid #eee;
         background: #fff;
+        max-width: 450px;
     }
     .date-btn{
         width:34px;

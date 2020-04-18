@@ -79,6 +79,7 @@ export default {
       imgIndex: 0,
       qrcode: "",
       qrcodeShow: false,
+      token: this.$cookies.get("signIn") ? this.$cookies.get("signIn") : this.$cookies.get("token"),
       options: {
         getThumbBoundsFn(index) {
           // find thumbnail element
@@ -103,7 +104,7 @@ export default {
     dateTools
   },
   mounted() {
-    if (!this.$cookies.get("signIn")) this.$router.push("/home");
+    if (!this.$cookies.get("signIn") && !this.$cookies.get("token")) this.$router.push("/");
     this.getData();
   },
   methods: {
@@ -133,7 +134,7 @@ export default {
           photo_id: this.list[this.imgIndex].id
         },
         headers: {
-          Authorization: "Bearer " + this.$cookies.get("signIn")
+          Authorization: "Bearer " + this.token
         }
       }).then(res => {
         console.log(res);
@@ -146,13 +147,13 @@ export default {
     },
     zhifu() {
       axios
-        .get("http://photo.fewsecond.cn/album/buy-photo", {
+        .get("http://photo.fewsecond.cn/apis/album/buy-photo", {
           params: {
             photo_id: this.list[this.imgIndex].id,
             pay_method: "qr"
           },
           headers: {
-            Authorization: "Bearer " + this.$cookies.get("signIn")
+            Authorization: "Bearer " + this.token
           },
           responseType: "arraybuffer"
         })
@@ -181,7 +182,7 @@ export default {
             photo_id: this.list[this.imgIndex].id
           },
           headers: {
-            Authorization: "Bearer " + this.$cookies.get("signIn")
+            Authorization: "Bearer " + this.token
           }
         }).then(res => {
           if (res.status == 200) {

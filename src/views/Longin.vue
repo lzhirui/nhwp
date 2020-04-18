@@ -78,10 +78,10 @@ export default {
         this.$toast.error("验证码不能是空", 2000);
         return false;
       }
-      // if(this.codeData != this.code){
-      //     this.$toast.error('验证码错误', 2000)
-      //     return false;
-      // }
+      if(this.codeData != this.code){
+          this.$toast.error('验证码错误', 2000)
+          return false;
+      }
       this.$server({
         url: "/user/login",
         method: "post",

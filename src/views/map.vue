@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted() {
-    if(!this.$cookies.get("signIn")) this.$router.push('/home')
+    if(!this.$cookies.get("signIn")) this.$router.push('/')
     this.getSnowList()
   }
 };

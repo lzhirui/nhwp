@@ -118,7 +118,7 @@ export default {
     Top
   },
   mounted() {
-    if(!this.$cookies.get("signIn")) this.$router.push('/home')
+    if(!this.$cookies.get("signIn")) this.$router.push('/')
     if (this.$cookies.get("xuechang")) this.map = this.$cookies.get("xuechang");
   },
   methods: {
@@ -281,6 +281,9 @@ export default {
   opacity: 100%;
   position: absolute;
   top: -1000%;
+}
+input {
+  border: 0;
 }
 .content_item {
   width: 40%;
