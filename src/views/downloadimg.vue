@@ -18,9 +18,11 @@
       <p>共{{ total }}张</p>
     </div>
     <div class="content">
-      <div v-for="(item, index) in list" class="list" :key="index">
-        <div @click="showImg(index)">
-          <img class="previewer-demo-img" :src="item.src" alt="" />
+      <div class="margin">
+        <div v-for="(item, index) in list" class="list" :key="index">
+          <div @click="showImg(index)">
+            <img class="previewer-demo-img" :src="item.src" alt="" />
+          </div>
         </div>
       </div>
       <div v-if="dateShowType" class="date" @click="closeDate">
@@ -49,15 +51,15 @@
         >
         </previewer>
       </div>
-      <div v-if="dataHave" class="downloadImgButton" @click="downImg()">
-        <img src="../assets/img/downlist/iconDownload@3x.png" alt="" />
-        <span>下载高清图</span>
-      </div>
       <div>
         <div class="qrcode" v-if="qrcodeShow" @click="closeQrCode">
           <img :src="qrcode" alt="" />
         </div>
       </div>
+    </div>
+    <div v-if="dataHave" class="downloadImgButton" @click="downImg()">
+      <img src="../assets/img/downlist/iconDownload@3x.png" alt="" />
+      <span>下载高清图</span>
     </div>
   </div>
 </template>
@@ -208,8 +210,9 @@ export default {
     },
     changeDay(data) {
       let y = data.slice(0, 4);
-      let m = data.slice(5, 6) < 10 ? "0" + data.slice(5, 6) : data.slice(5, 6);
-      let d = data.slice(7, 8) < 10 ? "0" + data.slice(7, 8) : data.slice(7, 8);
+      console.log(data.slice(4, 6))
+      let m = data.slice(4, 6)
+      let d = data.slice(6, 8)
       this.myselectdate = y + "-" + m + "-" + d;
       this.getData();
     },
@@ -282,11 +285,13 @@ export default {
   }
 }
 .content {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 4% 5%;
+  .margin {
+    margin: 4% 5%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   .list {
     width: 48.5%;
     margin-top: 2%;
