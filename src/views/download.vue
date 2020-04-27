@@ -74,7 +74,6 @@ export default {
     },
     changeDay(data) {
       let y = data.slice(0, 4);
-      console.log(data.slice(4, 6));
       let m = data.slice(4, 6);
       let d = data.slice(6, 8);
       this.myselectdate = y + "-" + m + "-" + d;
@@ -99,15 +98,15 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-  .date {
-    position: absolute;
-    top: 76px;
-    background: transparent;
-    width: 100%;
-    height: 100%;
-    z-index: 222;
-    max-width: 450px;
-  }
+.date {
+  position: absolute;
+  top: 76px;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  z-index: 222;
+  max-width: 450px;
+}
 .downlist {
   display: flex;
   flex-wrap: wrap;
