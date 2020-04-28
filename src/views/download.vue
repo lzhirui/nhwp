@@ -130,7 +130,11 @@ export default {
       } else {
         this.myselectdate = "选择日期";
         this.dateShowType = false;
-        this.getData();
+        if (this.snowListTyle) {
+          this.getSnowList();
+        } else {
+          this.getMap(this.id);
+        }
       }
     },
     closeDate() {
