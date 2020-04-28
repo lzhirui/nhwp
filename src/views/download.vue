@@ -1,5 +1,5 @@
 <template>
-  <div class="downlist">
+  <div id="map">
     <div class="top">
       <div>
         <button
@@ -26,15 +26,32 @@
         @changeDay="changeDay"
       ></dateTools>
     </div>
-    <div
-      v-for="(item, index) in snowList"
-      @click="$router.push('/downloadimg?id=' + item.id)"
-      :key="index"
-      class="list"
-    >
-      <div>
-        <img :src="item.backgroup_image_url" alt="" />
-        <p>{{ item.ski_park_area }}</p>
+    <div v-if="snowListTyle" class="downlist">
+      <div
+        v-for="(item, index) in snowList"
+        @click="getMap(item.id)"
+        :key="index"
+        class="list"
+      >
+        <div>
+          <img :src="item.backgroup_image_url" alt="" />
+          <p>{{ item.ski_park_area }}</p>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div
+        v-for="(item, index) in mapList"
+        :key="index"
+        class="condition"
+        @click="changeMap(index, item)"
+      >
+        <p>{{ item.ski_park_name }}</p>
+        <img
+          v-if="selectIndex === index"
+          src="../assets/img/map/iconChooseActive@3x.png"
+        />
+        <img v-else src="../assets/img/map/iconChooseDefault@3x.png" />
       </div>
     </div>
   </div>
@@ -42,22 +59,58 @@
 <script>
 import dateTools from "../components/data";
 export default {
+  name: "map",
   data() {
     return {
+      selectIndex: "",
+      snowList: [],
+      mapList: [],
+      snowListTyle: true,
       trainDateFullList: ["20180201", "20120228"],
       trainDateList2: [12, 17, 30],
       show: false,
       selectTyle: 1,
       dateShowType: false,
       myselectdate: "选择日期",
-      total: 0,
-      snowList: []
+      id: ""
     };
   },
   components: {
     dateTools
   },
   methods: {
+    changeMap(index, item) {
+      this.$router.push("/downloadimg?id=" + item.id);
+    },
+    getMap(id) {
+      this.id = id;
+      this.$server({
+        url: "/album/ski-parks",
+        params: {
+          area_id: id,
+          page: 100,
+          date: this.myselectdate != "选择日期" ? this.myselectdate : ""
+        }
+      }).then(data => {
+        this.snowListTyle = false;
+        this.mapList = data.data;
+      });
+    },
+    topDateFun2() {},
+    closeDownload() {
+      this.show = false;
+    },
+    changeDay(data) {
+      let y = data.slice(0, 4);
+      let m = data.slice(4, 6);
+      let d = data.slice(6, 8);
+      this.myselectdate = y + "-" + m + "-" + d;
+      if (this.snowListTyle) {
+        this.getSnowList();
+      } else {
+        this.getMap(this.id);
+      }
+    },
     getSnowList() {
       this.$server({
         url: "/album/ski-park-area",
@@ -69,17 +122,6 @@ export default {
         this.snowList = data.data;
       });
     },
-    closeDate() {
-      this.dateShowType = false;
-    },
-    changeDay(data) {
-      let y = data.slice(0, 4);
-      let m = data.slice(4, 6);
-      let d = data.slice(6, 8);
-      this.myselectdate = y + "-" + m + "-" + d;
-      this.getSnowList();
-    },
-    topDateFun2() {},
     selectButtonFunc(index) {
       this.selectTyle = index;
       if (index == 2) {
@@ -88,8 +130,11 @@ export default {
       } else {
         this.myselectdate = "选择日期";
         this.dateShowType = false;
-        this.getSnowList();
+        this.getData();
       }
+    },
+    closeDate() {
+      this.dateShowType = false;
     }
   },
   mounted() {
@@ -98,15 +143,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.date {
-  position: absolute;
-  top: 76px;
-  background: transparent;
-  width: 100%;
-  height: 100%;
-  z-index: 222;
-  max-width: 450px;
-}
 .downlist {
   display: flex;
   flex-wrap: wrap;
@@ -115,7 +151,6 @@ export default {
   margin: 4% 5%;
   .list {
     width: 48.5%;
-    margin-top: 10px;
     div {
       width: 100%;
       height: 0;
@@ -139,6 +174,17 @@ export default {
     }
   }
 }
+.condition {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 12px 15px;
+
+  img {
+    width: 15px;
+  }
+}
 .top {
   display: flex;
   align-items: center;
@@ -146,6 +192,7 @@ export default {
   border-bottom: 1px solid #ccc;
   padding: 10px 5%;
   width: 100%;
+  max-width: 450px;
   div {
     button {
       width: 90px;
@@ -162,5 +209,13 @@ export default {
       color: #fff;
     }
   }
+}
+.date {
+  position: absolute;
+  top: 56px;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  z-index: 2222;
 }
 </style>
