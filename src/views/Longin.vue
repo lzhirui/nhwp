@@ -36,7 +36,7 @@ export default {
       setIntime: null,
       getCodeText: "获取验证码",
       count: 60,
-      codeData: ""
+      codeData: "",
     };
   },
   methods: {
@@ -49,6 +49,7 @@ export default {
         this.$toast.error("手机号格式不正确", 2000);
         return false;
       }
+      if(this.count != 60) return;
       this.$server({
         url: "/user/get-sms-code",
         method: "post",
@@ -67,6 +68,7 @@ export default {
           }
         }, 1000);
       });
+      this.count = 59
     },
     postSignIn() {
       let sMobile = this.phone;
