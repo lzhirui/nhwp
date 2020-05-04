@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative;">
     <div class="top">
       <div>
         <button
@@ -57,9 +57,11 @@
         </div>
       </div>
     </div>
-    <div v-if="dataHave" class="downloadImgButton" @click="downImg()">
-      <img src="../assets/img/downlist/iconDownload@3x.png" alt="" />
-      <span>下载高清图</span>
+    <div class="bottomButton">
+      <div v-if="dataHave" class="downloadImgButton" @click="downImg()">
+        <img src="../assets/img/downlist/iconDownload@3x.png" alt="" />
+        <span>下载高清图</span>
+      </div>
     </div>
   </div>
 </template>
@@ -257,6 +259,9 @@ export default {
   opacity: 0;
   position: absolute;
   top: -1000%;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
 }
 .optye100 {
   opacity: 1;
@@ -331,6 +336,14 @@ export default {
     width: 100%;
   }
 }
+.bottomButton {
+  position: fixed;
+  max-width: 500px;
+  height: 100px;
+  bottom: 0;
+  width: 100%;
+  z-index: 999999;
+}
 .downloadImgButton {
   width: 70%;
   height: 50px;
@@ -341,8 +354,6 @@ export default {
   justify-content: center;
   margin-left: 15%;
   background: rgb(74, 144, 226);
-  position: absolute;
-  bottom: 50px;
   z-index: 99999;
 }
 </style>
