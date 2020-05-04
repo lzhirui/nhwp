@@ -111,6 +111,9 @@ export default {
         this.getMap(this.id);
       }
     },
+    closeDate() {
+      this.dateShowType = false;
+    },
     getSnowList() {
       this.$server({
         url: "/album/ski-park-area",
@@ -136,9 +139,6 @@ export default {
           this.getMap(this.id);
         }
       }
-    },
-    closeDate() {
-      this.dateShowType = false;
     }
   },
   mounted() {

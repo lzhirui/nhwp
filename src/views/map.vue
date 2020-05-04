@@ -52,8 +52,12 @@ export default {
           page: 100
         }
       }).then(data=>{
-        this.snowListTyle = false
-        this.mapList = data.data
+        if (data.data.length > 0) {
+          this.snowListTyle = false
+          this.mapList = data.data
+        }else {
+          this.$toast.error('暂无雪场')
+        }
       })
     },
     getSnowList() {

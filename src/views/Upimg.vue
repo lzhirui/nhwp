@@ -29,6 +29,16 @@
           <img src="../assets/img/you.svg" />
         </div>
       </div>
+      <div v-if="dateShowType" class="date" @click="closeDate">
+        <dateTools
+          :dateToolsKey="2"
+          :trainDateList="trainDateList2"
+          :trainDateFullList="trainDateFullList"
+          ref="topDateTools2"
+          @topDateEvent2="topDateFun2"
+          @changeDay="changeDay"
+        ></dateTools>
+      </div>
       <div class="bgcolor"></div>
       <div class="img">
         <div
@@ -80,6 +90,7 @@
 import Top from "../components/top";
 import { format } from "date-fns";
 import * as qiniu from "qiniu-js";
+import dateTools from "../components/data";
 export default {
   name: "upimg",
   data() {
@@ -111,26 +122,42 @@ export default {
           // http://javascript.info/tutorial/coordinates
         }
       },
-      imgIndex: 0
+      imgIndex: 0,
+      trainDateFullList: ["20180201", "20120228"],
+      trainDateList2: [12, 17, 30],
+      show: false,
+      selectTyle: 1,
+      dateShowType: false,
+      myselectdate: "选择日期"
     };
   },
   components: {
-    Top
+    Top,
+    dateTools
   },
   mounted() {
-    if(!this.$cookies.get("signIn")) this.$router.push('/')
+    if (!this.$cookies.get("signIn")) this.$router.push("/");
     if (this.$cookies.get("xuechang")) this.map = this.$cookies.get("xuechang");
   },
   methods: {
     getCurrentIndex(changeData) {
       this.imgIndex = changeData.currentIndex;
     },
-    topDateFun2() {},
     closeDownload() {
       this.show = false;
     },
     closeImg() {
       this.dataHave = false;
+    },
+    topDateFun2() {},
+    changeDay(data) {
+      let y = data.slice(0, 4);
+      let m = data.slice(4, 6);
+      let d = data.slice(6, 8);
+      this.birthday = y + "-" + m + "-" + d;
+    },
+    closeDate() {
+      this.dateShowType = false;
     },
     showImg(index) {
       // 显示特定index的图片，使用ref
@@ -138,16 +165,20 @@ export default {
       this.$refs.previewerDiv.show(index);
     },
     birthdayClick() {
-      //时间
-      this.$picker.show({
-        type: "datePicker",
-        date: format(new Date(), "yyyy-MM-dd"),
-        endTime: "2033-01-01", //截至时间
-        startTime: "2000-01-01", //开始时间
-        onOk: date => {
-          this.birthday = date; // birthday就是所需字段，在data 里定义下
-        }
-      });
+      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        this.$picker.show({
+          type: "datePicker",
+          date: format(new Date(), "yyyy-MM-dd"),
+          endTime: "2033-01-01", //截至时间
+          startTime: "2000-01-01", //开始时间
+          onOk: date => {
+            this.birthday = date; // birthday就是所需字段，在data 里定义下
+          }
+        });
+      } else {
+        this.dateShowType = true;
+      }
     },
     deleteImg() {
       this.imgList.splice(this.imgIndex, 1);
@@ -389,5 +420,13 @@ input {
     margin-left: 10px;
     font-size: 16px;
   }
+}
+.date {
+  position: absolute;
+  top: 145px;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  z-index: 2222;
 }
 </style>

@@ -81,7 +81,9 @@ export default {
       imgIndex: 0,
       qrcode: "",
       qrcodeShow: false,
-      token: this.$cookies.get("signIn") ? this.$cookies.get("signIn") : this.$cookies.get("token"),
+      token: this.$cookies.get("signIn")
+        ? this.$cookies.get("signIn")
+        : this.$cookies.get("token"),
       options: {
         getThumbBoundsFn(index) {
           // find thumbnail element
@@ -106,7 +108,8 @@ export default {
     dateTools
   },
   mounted() {
-    if (!this.$cookies.get("signIn") && !this.$cookies.get("token")) this.$router.push("/");
+    if (!this.$cookies.get("signIn") && !this.$cookies.get("token"))
+      this.$router.push("/");
     this.getData();
   },
   methods: {
@@ -210,9 +213,8 @@ export default {
     },
     changeDay(data) {
       let y = data.slice(0, 4);
-      console.log(data.slice(4, 6))
-      let m = data.slice(4, 6)
-      let d = data.slice(6, 8)
+      let m = data.slice(4, 6);
+      let d = data.slice(6, 8);
       this.myselectdate = y + "-" + m + "-" + d;
       this.getData();
     },
@@ -230,7 +232,7 @@ export default {
       }).then(data => {
         this.total = data.total;
         for (let i = 0; i < data.data.length; i++) {
-          data.data[i].src = data.data[i].image_url;
+          data.data[i].src = data.data[i].thumb_image_url;
           this.list.push(data.data[i]);
         }
       });
@@ -339,7 +341,7 @@ export default {
   justify-content: center;
   margin-left: 15%;
   background: rgb(74, 144, 226);
-  position: relative;
+  position: absolute;
   bottom: 50px;
   z-index: 99999;
 }
