@@ -23,8 +23,22 @@
             readonly
             autocomplete="off"
             v-model="birthday"
-            placeholder="请选择生日"
+            placeholder="请选择日期"
             style="width: 75px"
+          />
+          <img src="../assets/img/you.svg" />
+        </div>
+      </div>
+      <div class="condition">
+        <div class="label_item">价格：</div>
+        <div class="content_item">
+          <input
+            type="number"
+            v-model="buy_price"
+            placeholder=""
+            step="0.01"
+            @change="inputOnlyOnePoint"
+            style="width: 75px;text-align: center;outline: none"
           />
           <img src="../assets/img/you.svg" />
         </div>
@@ -104,6 +118,7 @@ export default {
       birthday: format(new Date(), "yyyy-MM-dd"),
       map: {},
       dataHave: false,
+      buy_price: 0.0,
       options: {
         getThumbBoundsFn(index) {
           // find thumbnail element
@@ -140,6 +155,13 @@ export default {
     if (this.$cookies.get("xuechang")) this.map = this.$cookies.get("xuechang");
   },
   methods: {
+    inputOnlyOnePoint() {
+      var inputVal;
+      inputVal = Number(
+              this.buy_price.toString().match(/^\d+(?:\.\d{0,2})?/)
+      )
+      this.buy_price = inputVal;
+    },
     getCurrentIndex(changeData) {
       this.imgIndex = changeData.currentIndex;
     },
@@ -256,7 +278,10 @@ export default {
         data: {
           ski_park_id: this.map.id,
           albums: arr,
-          shooting_time: this.birthday
+          shooting_time: this.birthday,
+          buy_price: Number(
+            this.buy_price.toString().match(/^\d+(?:\.\d{0,2})?/)
+          )
         },
         headers: {
           Authorization: "Bearer " + this.$cookies.get("signIn")
