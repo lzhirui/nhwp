@@ -115,6 +115,14 @@ export default {
     this.getData();
   },
   methods: {
+    birthdayClick() {
+      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        return true
+      } else {
+        return false
+      }
+    },
     showImg(index) {
       // 显示特定index的图片，使用ref
       this.dataHave = true;
@@ -147,38 +155,57 @@ export default {
         if (res.download_url) {
           window.location.href = res.download_url + "?attname=";
         } else {
-          this.zhifu();
+          if(this.birthdayClick()){
+            this.h5zhifu()
+          }else {
+            this.zhifu();
+          }
         }
       });
     },
     zhifu() {
       axios
-        .get("http://photo.fewsecond.cn/apis/album/buy-photo", {
-          params: {
-            photo_id: this.list[this.imgIndex].id,
-            pay_method: "qr"
-          },
-          headers: {
-            Authorization: "Bearer " + this.token
-          },
-          responseType: "arraybuffer"
-        })
-        .then(response => {
-          return (
-            "data:image/png;base64," +
-            btoa(
-              new Uint8Array(response.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
-            )
-          );
-        })
-        .then(data => {
-          this.qrcodeShow = true;
-          this.qrcode = data;
-          this.setIntervalFunc();
-        });
+              .get("http://photo.fewsecond.cn/apis/album/buy-photo", {
+                params: {
+                  photo_id: this.list[this.imgIndex].id,
+                  pay_method: "qr"
+                },
+                headers: {
+                  Authorization: "Bearer " + this.token
+                },
+                responseType: "arraybuffer"
+              })
+              .then(response => {
+                return (
+                        "data:image/png;base64," +
+                        btoa(
+                                new Uint8Array(response.data).reduce(
+                                        (data, byte) => data + String.fromCharCode(byte),
+                                        ""
+                                )
+                        )
+                );
+              })
+              .then(data => {
+                this.qrcodeShow = true;
+                this.qrcode = data;
+                this.setIntervalFunc();
+              });
+    },
+    h5zhifu() {
+      this.$server({
+        url: "/album/buy-photo",
+        params: {
+          photo_id: this.list[this.imgIndex].id,
+          pay_method: "h5"
+        },
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      }).then(data => {
+        // console.log(data)
+        window.location.href = data.mweb_url
+      });
     },
     setIntervalFunc() {
       this.setIntervalParameter = setInterval(() => {

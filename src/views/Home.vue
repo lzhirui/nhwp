@@ -21,9 +21,6 @@ export default {
         .then(res => {
           this.$cookies.set("token", res.token);
         })
-        .catch(err => {
-          console.log(err);
-        });
     },
     isLogin() {
       this.$cookies.get("signIn")

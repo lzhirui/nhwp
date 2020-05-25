@@ -32,7 +32,6 @@ service.interceptors.request.use(function (config) {
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
     if (response.status >= 200) {
-        console.log(response.data.data)
         let data = JSON.stringify(response.data.data) != "{}" ? response.data.data : response.data
         return data
     } else {
