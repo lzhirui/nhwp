@@ -118,7 +118,7 @@ export default {
       birthday: format(new Date(), "yyyy-MM-dd"),
       map: {},
       dataHave: false,
-      buy_price: 0.0,
+      buy_price: 0.01,
       options: {
         getThumbBoundsFn(index) {
           // find thumbnail element
