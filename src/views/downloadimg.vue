@@ -204,7 +204,7 @@ export default {
         }
       }).then(data => {
         // console.log(data)
-        window.location.href = data.mweb_url
+        window.location.href = data.mweb_url ? data.mweb_url : window.location.href
       });
     },
     setIntervalFunc() {
