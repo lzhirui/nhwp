@@ -193,7 +193,7 @@ export default {
           type: "datePicker",
           date: format(new Date(), "yyyy-MM-dd"),
           endTime: "2033-01-01", //截至时间
-          startTime: "2000-01-01", //开始时间
+          startTime: "2020-01-01", //开始时间
           onOk: date => {
             this.birthday = date; // birthday就是所需字段，在data 里定义下
           }

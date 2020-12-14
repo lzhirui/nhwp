@@ -1,11 +1,11 @@
 <template>
   <div class="date-tools">
     <div class="date-years">
-      <button class="date-btn date-left" @click="subMonth()">&lt;</button>
-      <button class="date-middle" @click="selectYM()">
+      <button class="date-btn date-left" @click.stop="subMonth()">&lt;</button>
+      <button class="date-middle" @click.stop="selectYM()">
         {{ panelYear }}年{{ panelMonth + 1 }}月
       </button>
-      <button class="date-btn date-right" @click="addMonth()">&gt;</button>
+      <button class="date-btn date-right" @click.stop="addMonth()">&gt;</button>
     </div>
     <div class="date-weeks">
       <span>日</span>
@@ -42,7 +42,7 @@
           href="javascript:void(0);"
           v-for="(item, index) in yearList"
           :key="index"
-          @click="selectY(item)"
+          @click.stop="selectY(item)"
           >{{ item }}</a
         >
       </div>
@@ -51,7 +51,7 @@
           href="javascript:void(0);"
           v-for="(item, index) in monthList"
           :key="index"
-          @click="selectM(item - 1)"
+          @click.stop="selectM(item - 1)"
           >{{ item }}</a
         >
       </div>
@@ -279,7 +279,7 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  width: 310px;
+  width: 100%;
   height: 272px;
   background-color: rgba(255, 255, 255, 0.9);
   display: flex;
